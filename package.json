@@ -13,7 +13,7 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.2",
-    "@nuxtjs/cloudinary": "^1.0.1",
+    "@nuxtjs/cloudinary": "^1.0.2",
     "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/markdownit": "^1.2.10",
     "@nuxtjs/robots": "^2.4.2",
