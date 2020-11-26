@@ -20,7 +20,7 @@
     "@nuxtjs/sitemap": "^2.4.0",
     "@nuxtjs/strapi": "^0.1.7",
     "@nuxtjs/svg-sprite": "^0.5.0",
-    "core-js": "^3.6.5",
+    "core-js": "^3.8.0",
     "nuxt": "^2.14.6",
     "vue-clickaway": "^2.2.2",
     "vue-slick-carousel": "^1.0.6",
