@@ -277,9 +277,7 @@ export default {
       transform: scale(1.5);
     }
   }
-  &__image {
-    // margin-right: 3rem;
-  }
+
   &__meta {
     margin-top: 1rem;
     .vue-star-rating-rating-text {
@@ -296,10 +294,6 @@ export default {
     & ul {
       @apply list-inside list-disc;
     }
-  }
-
-  &__price {
-    // color: $white;
   }
 }
 .wishlist-icon {
