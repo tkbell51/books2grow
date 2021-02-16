@@ -1,145 +1,145 @@
 <template>
-  <div>
-    <section class="home-hero shadow-md">
-      <div class="h-full">
-        <VueSlickCarousel v-bind="settings" class="feature-book__carousel">
-          <div class="base-bg">
-            <h3 class="text-4xl text-white">%15 off purchases over $100!</h3>
-            <nuxt-link to="/books" class="text-white">Show Now</nuxt-link>
-          </div>
-
-          <div class="base-bg">3</div>
-          <BookSlide
-            v-for="book in featureBooks"
-            :key="book.slug"
-            :product="book"
-          />
-        </VueSlickCarousel>
+  <div class="container">
+    <section class="home-hero">
+      <!-- <div class="container"> -->
+      <VueSlickCarousel v-bind="settings" class="hero__carousel">
+        <HeroSlide title="Family" image="family" />
+        <HeroSlide title="Relationships" align="start" image="relationship" />
+        <HeroSlide title="Healthy Habits" image="healthy" />
+        <HeroSlide title="Financially" align="start" image="finance" />
+        <HeroSlide title="Spiritually" image="spiritual" />
+        <HeroSlide title="Mentally" align="start" image="mental" />
+      </VueSlickCarousel>
+      <!-- </div> -->
+    </section>
+    <section class="section__product-types">
+      <div class="product-type__grid grid grid-cols-2 gap-8">
+        <nuxt-link
+          class="rounded-xl shadow hover:shadow-lg bg-white h-20 flex justify-center items-center"
+          to="/store/books"
+          >Ebooks</nuxt-link
+        >
+        <nuxt-link
+          class="rounded-xl shadow hover:shadow-lg bg-white h-20 flex justify-center items-center"
+          to="/store/art"
+          >Wall Art</nuxt-link
+        >
       </div>
     </section>
-    <section class="section__categories">
-      <div class="container">
-        <h2 class="text-2xl font-bold">Categories</h2>
 
-        <div class="categories-row flex">
-          <Category
-            v-for="category in nonEmptyCategories"
-            :key="category.slug"
-            :category="category"
-            class="mb-2"
-          />
+    <Sales />
+
+    <section class="section__book-tabs">
+      <div class="book-tabs flex flex-wrap gap-2 justify-center mb-4">
+        <button
+          :class="{ selected: selectedCategory === 'All Books' }"
+          class="book-tabs__btn"
+          @click="categoryFilter('')"
+        >
+          All
+        </button>
+        <button
+          v-for="category in nonEmptyCategories"
+          :key="category.slug"
+          :class="{ selected: selectedCategory === category.name }"
+          class="book-tabs__btn"
+          @click="categoryFilter(category.name)"
+        >
+          {{ category.name }}
+        </button>
+      </div>
+      <transition-group
+        name="company"
+        tag="ul"
+        class="col-span-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8 mx-4 md:mx-auto"
+      >
+        <li
+          v-for="book in filteredBooks.slice(0, 10)"
+          :key="book.slug"
+          class="grid-item m-auto"
+        >
+          <BookCard :product="book" />
+        </li>
+      </transition-group>
+    </section>
+    <section class="section__categories">
+      <h2 class="text-4xl font-bold text-center mb-4">Shop By Categories</h2>
+
+      <div class="categories-row flex flex-wrap justify-center gap-8">
+        <div
+          v-for="category in nonEmptyCategories"
+          :key="category.slug"
+          class="category-row__item"
+        >
+          <Category :category="category" />
         </div>
       </div>
     </section>
-    <section>
-      <div class="container flex justify-bewteen gap-8">
-        <nuxt-link
-          to="/store"
-          class="bg-white py-4 px-6 rounded-md shadow-md hover:shadow-lg flex flex-col justify-between items-center w-1/3"
-        >
-          Shop Sale
-        </nuxt-link>
-        <nuxt-link
-          to="/books"
-          class="bg-white py-4 px-6 rounded-md shadow-md hover:shadow-lg flex flex-col justify-between items-center w-1/3"
-        >
-          Latest Products
-        </nuxt-link>
-        <nuxt-link
-          to="/blog"
-          class="bg-white py-4 px-6 rounded-md shadow-md hover:shadow-lg flex flex-col justify-between items-center w-1/3"
-        >
-          Read the Blog
-        </nuxt-link>
-      </div>
-    </section>
-    <section class="section__home-books">
-      <div class="container">
-        <Tabs class="relative">
-          <Tab title="Featured">
-            <VueSlickCarousel v-bind="bookSettings">
-              <div v-for="book in featureBooks" :key="book.slug" class="px-2">
-                <BookCard :product="book" />
-              </div>
-            </VueSlickCarousel>
-          </Tab>
-          <Tab title="New Products">
-            <VueSlickCarousel v-bind="bookSettings">
-              <div v-for="book in newProducts" :key="book.slug" class="px-2">
-                <BookCard :product="book" />
-              </div>
-            </VueSlickCarousel>
-          </Tab>
-          <Tab title="Best Sellers">
-            <VueSlickCarousel v-bind="bookSettings">
-              <div v-for="book in books" :key="book.slug" class="px-2">
-                <BookCard :product="book" />
-              </div>
-            </VueSlickCarousel>
-          </Tab>
-        </Tabs>
-      </div>
-    </section>
 
-    <section class="section__feature">
-      <div class="container">
-        <FeatureBook
-          v-for="book in featureBooks.slice(0, 1)"
-          :key="book.slug"
-          :product="book"
-        />
-      </div>
-    </section>
-    <section>
-      <div class="container">
-        <MoreBooksBanner />
-      </div>
-    </section>
     <HomeBlog />
   </div>
 </template>
 
 <script>
-import VueSlickCarousel from 'vue-slick-carousel'
-import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 export default {
-  components: {
-    VueSlickCarousel,
-  },
-  async asyncData({ $strapi }) {
-    return {
-      books: await $strapi.$products.find({ type: 'Book' }),
-      categories: await $strapi.$categories.find(),
-      featureBooks: await $strapi.$products.find({ feature: 'true' }),
-    }
-  },
   data() {
     return {
+      books: [],
+      categories: [],
+      filteredBooks: [],
+      selectedCategory: '',
       settings: {
-        arrows: true,
+        arrows: false,
         dots: true,
-        centerMode: true,
-        centerPadding: '20%',
         autoplay: true,
         autoplaySpeed: 8000,
         infinite: true,
+        fade: true,
       },
       bookSettings: {
         arrows: true,
         infinite: true,
         slidesToShow: 5,
       },
+      featureSettings: {
+        arrows: true,
+        autoplay: true,
+        autoplaySpeed: 8000,
+        infinite: true,
+        fade: true,
+        slidesToShow: 1,
+      },
     }
   },
   computed: {
     nonEmptyCategories() {
-      return this.categories.filter((c) => c.products.length > 0)
-    },
-    newProducts() {
-      return this.books.filter(
-        (b) => new Date().getMonth() - new Date(b.createdAt).getMonth() < 3
+      return this.categories.filter(
+        (d) =>
+          d.products.length > 0 && d.products.some((f) => f.type === 'Book')
       )
+    },
+    featureBooks() {
+      return this.books.filter((b) => b.feature === true)
+    },
+  },
+  async mounted() {
+    this.books = await this.$strapi.$products.find({ type: 'Book' })
+    this.categories = await this.$strapi.$categories.find()
+    this.filteredBooks = this.books
+    this.selectedCategory = 'All Books'
+  },
+  methods: {
+    categoryFilter(categoryName) {
+      if (categoryName === '') {
+        this.selectedCategory = 'All Books'
+        this.filteredBooks = this.books
+      } else {
+        this.selectedCategory = categoryName
+
+        this.filteredBooks = this.books.filter((e) => {
+          return e.category.name === categoryName
+        })
+      }
     },
   },
 }
@@ -150,7 +150,11 @@ export default {
   @apply mx-auto;
 }
 section {
-  @apply py-8;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
@@ -173,37 +177,37 @@ section {
 .links {
   padding-top: 15px;
 }
+
 .home-hero {
-  height: 30rem;
   width: 100%;
-  padding: 0;
+  margin-top: 0;
+  padding-top: 0;
   .container {
     height: inherit;
   }
-  .feature-book__carousel {
-    height: inherit;
-    .base-bg {
-      width: 40rem;
-      background: url('../assets/img/b2g-header.jpg');
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
+  .hero__carousel {
+    height: 50vh;
+    .hero-btn {
+      background: $orange;
+      @apply py-2 px-4 rounded-xl font-bold;
     }
+    .slick__svg::before {
+      fill: $white !important;
+    }
+
     .slick-next {
-      right: 22%;
-      top: 95%;
+      right: 1%;
     }
     .slick-prev {
-      left: 75%;
-      top: 95%;
+      left: 1%;
       z-index: 1;
     }
     .slick-dots {
       bottom: 3%;
-      text-align: right;
-      right: 26%;
+      text-align: center;
       li button:before {
         color: $white;
+        font-size: 20px;
       }
     }
     .slick-list {
@@ -220,23 +224,94 @@ section {
     }
   }
 }
-.section__home-books {
-  height: 30rem;
-  .slick-next {
-    right: 22%;
-    top: 95%;
+.section {
+  &__categories {
+    h2 {
+      color: $orange;
+    }
+    .categories-row {
+    }
   }
-  .slick-prev {
-    left: 75%;
-    top: 95%;
-    z-index: 1;
+  &__home-books {
+    height: 30rem;
+    .slick-next,
+    .slick-prev {
+      &::before {
+        font-family: '';
+      }
+    }
+    .slick-next {
+      right: 22%;
+      top: 95%;
+      &::before {
+        content: '';
+        background-image: url('../assets/sprite/svg/arrow-right.svg');
+      }
+    }
+    .slick-prev {
+      left: 75%;
+      top: 95%;
+      z-index: 1;
+    }
+    .slick-dots {
+      bottom: 3%;
+      text-align: right;
+      right: 26%;
+      li button:before {
+        color: $white;
+      }
+    }
   }
-  .slick-dots {
-    bottom: 3%;
-    text-align: right;
-    right: 26%;
-    li button:before {
-      color: $white;
+  &__book-tabs {
+    .book-tabs {
+      &__btn {
+        @apply px-4 py-1 relative text-lg;
+        &::before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background-color: $orange;
+          visibility: hidden;
+          transform: scaleX(0);
+          transition: all 0.3s ease-in-out 0s;
+        }
+        &:hover {
+          &::before {
+            visibility: visible;
+            transform: scaleX(1);
+          }
+        }
+        &.selected {
+          @apply font-semibold rounded;
+          background: $orange;
+          color: $white;
+        }
+      }
+    }
+  }
+  .company {
+    &-move {
+      transition: all 600ms ease-in-out 50ms;
+    }
+    &-enter-active {
+      transition: all 300ms ease-out;
+    }
+
+    &-leave-active {
+      transition: all 200ms ease-in;
+      position: absolute;
+      z-index: 0;
+    }
+
+    &-enter,
+    &-leave-to {
+      opacity: 0;
+    }
+    &-enter {
+      transform: scale(0.9);
     }
   }
 }

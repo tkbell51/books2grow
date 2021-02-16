@@ -1,19 +1,17 @@
 <template>
-  <div>
+  <div class="body">
     <Header />
-    <PageBanner />
-    <div class="container">
-      <div class="grid grid-cols-6">
-        <StoreLinks class="col-span-1" />
-        <Nuxt class="col-span-5" />
+    <div class="content store-content">
+      <StoreHeader />
+      <div class="container">
+        <div class="flex gap-8">
+          <StoreLinks class="w-1/5" />
+          <Nuxt class="w-4/5" />
+        </div>
       </div>
+      <!-- <Snipcart /> -->
     </div>
-    <div
-      id="snipcart"
-      hidden
-      :data-api-key="`${$config.snipcartPublicAPI}`"
-    ></div>
-    <EmailCall />
+
     <Footer />
   </div>
 </template>
@@ -22,4 +20,8 @@
 export default {}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.store-content {
+  margin-bottom: 3rem;
+}
+</style>

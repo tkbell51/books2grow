@@ -68,7 +68,7 @@
 
 <script>
 export default {
-  layout: 'user',
+  layout: 'login',
   middleware: 'guest',
   data() {
     return {

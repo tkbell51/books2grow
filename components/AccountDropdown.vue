@@ -36,7 +36,7 @@
           <li>
             <nuxt-link
               class="dropdown__link block px-4 py-2 text-gray-800"
-              to="/account/order"
+              to="/account/orders"
               >My Orders</nuxt-link
             >
           </li>
@@ -122,6 +122,7 @@ export default {
   .dropdown {
     width: 15rem;
     color: $black;
+    z-index: 5;
     &__link {
       &:hover {
         background: $orange;

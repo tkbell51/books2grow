@@ -20,13 +20,12 @@
           :increment="0.5"
           :show-rating="false"
         ></StarsRatings>
-        <p class="">{{ product.short }}</p>
         <p class="text-3xl">${{ product.price }}</p>
         <nuxt-link
           :key="product.slug"
           class="btn-transparent inline-block"
           :to="{
-            name: 'store-books-slug',
+            name: 'product-slug',
             params: { slug: product.slug },
           }"
           >Shop Now</nuxt-link

@@ -15,16 +15,7 @@
           to="/store"
           ><span>Store</span></nuxt-link
         >
-        <nuxt-link
-          class="header__link block border-b-2 border-transparent mx-5"
-          to="/store/books"
-          ><span>eBooks</span>
-        </nuxt-link>
-        <nuxt-link
-          class="header__link block border-b-2 border-transparent mx-5"
-          to="/art"
-          ><span>Wall Art</span></nuxt-link
-        >
+
         <nuxt-link
           class="header__link block border-b-2 border-transparent mx-5"
           to="/blog"
@@ -42,14 +33,13 @@ export default {}
 <style lang="scss">
 .header {
   &__menu {
-    background: $orange;
   }
 
   &__link {
+    @apply font-semibold;
     transition: $transition;
-    color: $white;
     &:hover {
-      border-bottom: 3px solid $orange;
+      color: $orange;
     }
   }
 }

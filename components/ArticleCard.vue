@@ -1,17 +1,29 @@
 <template>
-  <nuxt-link
-    :key="article.id"
-    :to="{ name: 'blog-slug', params: { slug: article.slug } }"
-    class="bg-white py-4 px-6 rounded-md shadow-md hover:shadow-lg article-card text-white flex flex-col justify-between"
-    :style="{
-      backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5) ), url(${src})`,
-    }"
-  >
-    <div v-for="tag in article.tags" :key="tag.id">
-      <span v-if="tag.name != 'Feature'">{{ tag.name }}</span>
-    </div>
-    <h3 class="font-bold text-xl">{{ article.title }}</h3>
-  </nuxt-link>
+  <div class="article-card mb-4 mx-4 md:mx-auto md:mb-auto">
+    <nuxt-link
+      :key="article.id"
+      :to="{ name: 'blog-slug', params: { slug: article.slug } }"
+      class="flex flex-row md:flex-col"
+    >
+      <div
+        v-if="this.article.image != null"
+        class="article-card__img hidden md:block"
+      >
+        <img :src="src" :alt="article.title" />
+      </div>
+      <div class="article-card__text py-3 text-left">
+        <div v-for="tag in article.tags" :key="tag.id">
+          <span v-if="tag.name != 'Feature'" class="article-card__tag">{{
+            tag.name
+          }}</span>
+        </div>
+        <h3 class="font-bold text-lg my-3 article-card__title">
+          {{ article.title }}
+        </h3>
+        <p class="article-card__date">{{ $formatDate(article.createdAt) }}</p>
+      </div>
+    </nuxt-link>
+  </div>
 </template>
 
 <script>
@@ -36,10 +48,29 @@ export default {
 
 <style lang="scss" scoped>
 .article-card {
-  height: 15rem;
   transition: $transition;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  &__img {
+    img {
+    }
+  }
+  &__tag,
+  &__date {
+    color: $dark-grey-blue;
+  }
+  h3 {
+    transition: $transition;
+  }
+  .bg-white {
+    transition: $transition;
+  }
+
+  &:hover {
+    .bg-white {
+      @apply shadow-lg;
+    }
+    h3 {
+      color: $orange;
+    }
+  }
 }
 </style>

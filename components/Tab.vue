@@ -1,5 +1,5 @@
 <template>
-  <div class="tab" :class="{ active: isActive }">
+  <div class="tab md:w-3/4 m-auto px-4 md:p-auto" :class="{ active: isActive }">
     <slot></slot>
   </div>
 </template>
@@ -8,6 +8,10 @@
 export default {
   props: {
     title: {
+      type: String,
+      default: '',
+    },
+    label: {
       type: String,
       default: '',
     },
@@ -25,15 +29,10 @@ export default {
 
 <style lang="scss">
 .tab {
-  opacity: 0;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-
+  display: none;
+  transition: $transition;
   &.active {
-    opacity: 1;
-    z-index: 4;
+    display: block;
   }
 }
 .fade-enter-active,

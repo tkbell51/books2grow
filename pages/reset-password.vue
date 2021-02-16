@@ -61,7 +61,7 @@
 import Notification from '~/components/Notification'
 
 export default {
-  layout: 'user',
+  layout: 'login',
   middleware: 'guest',
   components: {
     Notification,

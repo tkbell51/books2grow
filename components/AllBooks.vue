@@ -12,6 +12,7 @@
       :snipcart="b.snipcart_guid"
       :description="b.description"
       :category="b.category.slug"
+      :data-item-categories="b.category.name"
     />
   </div>
 </template>

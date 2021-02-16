@@ -1,10 +1,5 @@
 require('dotenv').config()
 export default {
-  publicRuntimeConfig: {
-    strapiBaseUri: process.env.STRAPI_URL,
-    snipcartPublicAPI: process.env.SNIPCART_PUBLIC_API,
-  },
-
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
@@ -15,12 +10,28 @@ export default {
    ** See https://nuxtjs.org/api/configuration-target
    */
   target: 'static',
+
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint:
+          process.env.BACKEND_URL || 'http://localhost:1337/graphql',
+      },
+    },
+  },
+  env: {
+    strapiUrl: process.env.STRAPI_URL || 'http://localhost:1337',
+    storeUrl: process.env.STORE_URL || 'http://localhost:1337',
+    snipcartApiKey:
+      process.env.SNIPCART_PUBLIC_API ||
+      'MzdiNGJhODItYWI2NC00Mzg1LTg1Y2EtZTllNGNkMmM1MzZhNjM3MzUzMDA1Mzk0NDU5MDgz',
+  },
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Books2Grow',
     meta: [
       {
         charset: 'utf-8',
@@ -44,6 +55,8 @@ export default {
         rel: 'preconnect',
         href: 'https://cdn.snipcart.com',
       },
+      { rel: 'preconnect', href: 'https://app.snipcart.com' },
+      { rel: 'preconnect', href: 'https://cdn.snipcart.com' },
       {
         rel: 'stylesheet',
         href: 'https://cdn.snipcart.com/themes/v3.0.16/default/snipcart.css',
@@ -69,9 +82,12 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
+    { src: '~plugins/vue-fuse.js' },
     '~plugins/axios',
     { src: '~plugins/vue-star-rating', mode: 'client' },
-    '~plugins/book',
+    '~plugins/date',
+    '~plugins/ratings',
+    '~plugins/vue-slick-carousel',
   ],
   /*
    ** Auto import components
@@ -84,14 +100,21 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
     '@nuxtjs/tailwindcss',
+    // '@nuxtjs/ngrok',
   ],
+
+  // ngrok: {
+  //   authtoken: process.env.NGROK_AUTHTOKEN,
+  //   addr: 8080,
+  //   auth: process.env.NGROK_AUTH,
+  // },
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-
+    '@nuxtjs/apollo',
     '@nuxtjs/style-resources',
     '@nuxtjs/svg-sprite',
     '@nuxtjs/markdownit',
@@ -99,8 +122,10 @@ export default {
     '@nuxtjs/strapi',
     '@nuxtjs/cloudinary',
   ],
+
   cloudinary: {
     cloudName: 'books2grow',
+    useComponent: true,
   },
   markdownit: {
     preset: 'default',
@@ -120,6 +145,7 @@ export default {
       'tags',
       'emails',
       'reviews',
+      'wishlists',
     ],
   },
 
@@ -138,6 +164,12 @@ export default {
             propertyName: false,
           },
           logout: false,
+        },
+        redirewct: {
+          login: '/login',
+          logout: '/',
+          callback: '/login',
+          home: '/',
         },
       },
     },
@@ -160,6 +192,6 @@ export default {
    */
   build: {
     extend(config, ctx) {},
-    transpile: ['star-rating'],
+    transpile: ['star-rating', 'vue-fuse'],
   },
 }

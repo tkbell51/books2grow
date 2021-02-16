@@ -3,14 +3,15 @@
     <Header />
     <Nuxt class="content" />
 
-    <div
-      id="snipcart"
-      hidden
-      :data-api-key="`${$config.snipcartPublicAPI}`"
-    ></div>
-    <EmailCall />
+    <!-- <Snipcart /> -->
 
     <Footer />
+    <div
+      id="snipcart"
+      data-config-modal-style="side"
+      data-api-key="MzdiNGJhODItYWI2NC00Mzg1LTg1Y2EtZTllNGNkMmM1MzZhNjM3MzUzMDA1Mzk0NDU5MDgz"
+      hidden
+    ></div>
   </div>
 </template>
 
@@ -26,19 +27,22 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
+body {
+  background: $white;
+}
 html,
 .body {
-  height: 100%;
+  height: 100vh;
 }
 .body {
   display: flex;
   flex-direction: column;
-}
-.content {
-  flex: 1 0 auto;
-}
-.footer {
-  flex-shrink: 0;
+  .content {
+    flex: 1 0 auto;
+  }
+  .footer {
+    flex-shrink: 0;
+  }
 }
 *,
 *::before,
@@ -46,9 +50,15 @@ html,
   box-sizing: border-box;
   margin: 0;
 }
-.btn-transparent {
-  @apply bg-transparent font-semibold border border-white rounded-lg py-2 px-3 mt-3 shadow;
+a {
   transition: $transition;
+  &:hover {
+    color: $orange;
+  }
+}
+.btn-transparent {
+  transition: $transition;
+  @apply bg-transparent font-semibold border border-white rounded-lg py-2 px-3 mt-3 shadow;
 
   :hover {
     background: $white;
@@ -63,5 +73,9 @@ html,
 
 h2 {
   @apply mb-3;
+}
+
+.grid-item {
+  width: 14rem;
 }
 </style>

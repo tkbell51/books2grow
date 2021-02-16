@@ -1,7 +1,6 @@
 <template>
   <div>
-    <PageBanner />
-    <div class="container">Wall Art</div>
+    <nuxt />
   </div>
 </template>
 

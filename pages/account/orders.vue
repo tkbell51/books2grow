@@ -1,10 +1,9 @@
 <template>
   <div>
-    <PageBanner />
     <div class="container">
-      <h2 class="text-6xl">My Orders</h2>
-      <div v-for="book in loggedInUser.orders" :key="book.slug"></div>
-      {{ loggedInUser.orders.title }}
+      <div class="grid grid-cols-4">
+        <BookCard v-for="b in purchases" :key="b.slug" :product="b" />
+      </div>
     </div>
   </div>
 </template>
@@ -12,6 +11,8 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  layout: 'user',
+
   middleware: 'auth',
   computed: {
     ...mapGetters(['loggedInUser']),

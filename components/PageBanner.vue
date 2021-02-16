@@ -1,5 +1,7 @@
 <template>
-  <section class="page__banner"></section>
+  <section class="page__banner flex justify-center items-center">
+    <slot></slot>
+  </section>
 </template>
 
 <script>
