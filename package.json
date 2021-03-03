@@ -16,7 +16,7 @@
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/cloudinary": "^1.0.2",
     "@nuxtjs/google-analytics": "^2.4.0",
-    "@nuxtjs/markdownit": "^1.2.10",
+    "@nuxtjs/markdownit": "^2.0.0",
     "@nuxtjs/robots": "^2.4.2",
     "@nuxtjs/sitemap": "^2.4.0",
     "@nuxtjs/strapi": "^0.1.8",
